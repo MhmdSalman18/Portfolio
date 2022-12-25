@@ -20,7 +20,7 @@ h2{
 }
 h3{
   font-family: 'Montserrat';
-  font-weight: bold;
+  font-weight: lighter;
   color:dimgrey;
   word-spacing: 5px;
 
@@ -77,7 +77,7 @@ hr{
 #profile{
     background-color: #ffff;
     margin: 5%;
-    padding: 3%;
+   
 }
 hr{
   border-color: #fff;
@@ -91,7 +91,7 @@ hr{
 }
 #skills{
     background-color: #66fcf1;
-    margin: 5%;
+    padding: 5%;
     
 }
 .photoa{
@@ -273,7 +273,7 @@ nav ul li:hover::after {
     padding: 10px 20px 10px 20px;
     text-decoration: none;
     margin-top: 5%;
-    margin-left: 35%;
+    margin-left: 25%;
     margin-top: 5%;
   }
   
