@@ -54,17 +54,17 @@ li{
     font-family:bungee;
     font-size: small;
     text-shadow: 5px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
-    
-    
+    word-spacing: 110px;
+ 
+  
 
 
 }
 .nav-text{
   color: #000;
   text-decoration: solid;
-  float: left;
   
- 
+  
 
 }
 hr{
@@ -160,7 +160,8 @@ margin-top:50px;
 nav {
   
   border-radius: 9px;
-  padding: 30px;
+  padding-right: 60px;
+  margin-right: 10%;
   
 }
 nav ul li {
