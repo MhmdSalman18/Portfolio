@@ -7,12 +7,12 @@ h1{
     text-align: center;
     padding: 5%;
 }
-h2{
+h2,h3{
     color: #aaa!important;
+    font-size: small;
 }
-h3{
-    color: #aaa!important;
-}
+
+
 p{
     text-align: left;
      color:#fff;
@@ -66,7 +66,7 @@ p{
   .table-1 {
     margin: 0 auto;
     max-width: 800px;
-    width: 100%;
+    width: 90%;
   }
   
   .dp-image {
@@ -81,13 +81,13 @@ p{
   }
   
   .td-1 h2 {
-    font-size: 36px;
+    font-size: 34px;
     
   }
   
   .td-1 p {
     
-    font-size: 20px;
+    font-size: 15px;
     font-weight: bold;
   }
   
@@ -140,6 +140,7 @@ p{
 .intro-sentence{
    margin-left: 10%;
    margin-right: 10%;
+   text-align: left;
 }
 /*skills section*/
 #skills{
@@ -187,19 +188,58 @@ p{
 
 
 /*education*/
-#education{
-    margin-top: 5%;
-   margin-left: 10%;
-   margin-right: 15%;
-   text-align: left;
-    font-size: 1.5rem;
+#education {
+  
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10%;
+  margin-right: 10%;
+  
 }
 
+#education h1 {
+  text-align: center;
+  font-size: 2rem;
+  margin: 0;
+  
+}
+
+.education1,
+.education2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+  margin: 20px;
  
-
-.education2{
-    margin-top: 5%;
+  
+ 
 }
+
+.education1 .photoa,
+.education2 .photoa {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 20px;
+}
+
+.education1 h2,
+.education2 h2 {
+  font-size: 1.5rem;
+ 
+}
+
+.education1 p,
+.education2 p {
+  font-size: 1rem;
+  line-height: 1.5;
+  text-align: left;
+}
+
+
+/*socil*/
 .btn1{
     margin-top: 5%;
 }
@@ -216,8 +256,8 @@ p{
     color: #00FF00;
     display: inline-flex;
     justify-content: center;
-    height: 50px;
-    width: 50px;
+    height: 45px;
+    width: 45px;
     align-items: center;
     background: transparent;
     border: 2px solid #00FF00;
@@ -230,7 +270,7 @@ p{
 
 }
 .footer{
-  padding:0 40%;
+  padding:0 20%;
 }
 #form {
   display: flex;
@@ -244,7 +284,7 @@ form {
   align-items: center;
   width: 50%;
 }
-
+/*animation*/
 * {
     padding: 0;
     margin: 0;
@@ -287,17 +327,10 @@ form {
     }
   }
 
+ /*based on phone screen*/
 
   
 
-  /*loading*/
-  #preloader{
-    background-color: #000 url("/images/green-loader.gif") no-repeat center;
-    background-size: 15%;
-    height: 100vh;
-    width: 100%;
-    position: fixed;
-    z-index: 100;
-  }
+
   
   
