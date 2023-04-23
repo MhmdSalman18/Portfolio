@@ -184,9 +184,7 @@ p{
     
       
 }
-.certi-image{
-    height: 300px;
-}
+
 
 /*education*/
 #education{
@@ -289,16 +287,7 @@ form {
     }
   }
 
- /*based on phone screen*/
- @media screen and (min-width: 480px) {
-    .certi-image {
-      height: 200px;
-    }
-    .dp-image{
-        width: 130px;
-    }
-    
-  }
+
   
 
   /*loading*/
