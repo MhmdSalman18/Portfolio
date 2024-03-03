@@ -60,6 +60,8 @@ h2 {
 #navbar {
   margin-top: 5vh;
   padding: 10px;
+ animation:  slideInT  1s ease-in-out forwards ; 
+
 }
 
 /* Style the navbar container */
@@ -100,28 +102,30 @@ h2 {
   
 }
 
+
 /* Center the content within the profile section */
 #profile {
+  
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Adjust the height as needed */
+  height: 50vw; /* Adjust the height as needed */
 }
 
 /* Style the table within the profile section */
 #profile table {
+  
   width: 100%;
   border-collapse: collapse;
   text-align: center;
 }
 
 /* Style the first row of the table */
-#profile tr:nth-child(1) {
-  border-bottom: 2px solid #ccc;
-}
+
 
 /* Style the buttons in the second row */
 #profile .btn {
+  animation:  slideInL  1s ease-in-out forwards ; 
   display: inline-block;
   padding: 10px 20px;
   margin: 10px;
@@ -178,9 +182,11 @@ h2 {
 /* Style each image */
 /* Style each image */
 #projects img {
-  width: 90vh;
+  width: 40vw;
+  animation:  slideInT  1s ease-in-out forwards ; 
+
   margin: 10px;
-  height: 90vh;
+  height: 40vw;
   object-fit: fill;
   border-radius: 8px; /* Add border radius for rounded corners */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
@@ -191,6 +197,8 @@ h2 {
 #projects img:hover {
   transform: scale(1.1); /* Adjust the scale factor as needed */
 }
+
+
 
 .about {
   
@@ -295,12 +303,32 @@ h2 {
 
 /* Your existing styles */
 
-@media screen and (max-width: 768px) {
+@media  (width<508px) {
    h1 {
-    font-size:xx-large;
+   
+    
     margin-left: 0; /* Center the heading on smaller screens */
     width: 100%;
-    max-right: 10px;
+    
+  }
+  .navbar a{
+    font-size: 3vw;
+  }
+  #profile{
+    margin: 10vw ;
+    padding: 20vh 0;
+  }
+  #profile h1{
+    
+   
+    text-align: left;
+   
+    font-size: 3vh;
+  }
+  #profile .btn{
+
+    width: auto;
+    font-size: 2vh;
   }
 
   #contact .connect th,
@@ -320,6 +348,11 @@ h2 {
     flex-direction: column; /* Stack social links vertically on smaller screens */
     align-items: center;
   }
+  #projects img{
+    width: 40vh;
+  margin: 10px;
+  height: 40vh;
+  }
 }
 
 .footer {
@@ -329,4 +362,35 @@ h2 {
   align-items: center;
   height: 40px;
   background-color: #333;
+}
+
+@keyframes slideInL{
+  from{
+    transform: translateX(-100px);
+    opacity: 0;
+  }
+  to{
+    transform: translate(0);
+    opacity: 1;
+  }
+}
+@keyframes slideInR{
+  from{
+    transform:translateX(100px);
+    opacity: 0;
+  }
+  to{
+    transform: translateZ(0);
+    opacity: 1;
+  }
+}
+@keyframes slideInT{
+  from{
+    transform: translatey(-100px);
+    opacity: 0;
+  }
+  to{
+    transform: translatey(0);
+    opacity: 1;
+  }
 }
