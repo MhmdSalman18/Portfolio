@@ -1,165 +1,117 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" data-motion="on">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portfolio</title>
-  <link rel='stylesheet' href="css/style.css">
-  <script src="https://kit.fontawesome.com/0d169dd063.js" crossorigin="anonymous"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bungee&family=Cinzel:wght@900&family=Merriweather:wght@900&family=Montserrat:wght@300;700&family=Press+Start+2P&family=Roboto+Slab&family=Rubik+Mono+One&family=Sacramento&family=Titan+One&family=Ubuntu:wght@500&family=Unbounded&display=swap" rel="stylesheet">
-
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1825">
+  <meta name="description" content="Android developer portfolio featuring Kadi Undo, CredenceAI, Prime Valet, and EcoMap: community discovery, on-device expense parsing, and valet operations.">
+  <title>Muhammed Salman — Android Developer</title>
+  <link rel="icon" href="assets/personal-logo.png" type="image/png">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="experience.css">
+  <link rel="stylesheet" href="posters.css">
+  <link rel="stylesheet" href="theme.css">
+  <script src="content.js" defer></script>
+  <script src="projects.js" defer></script>
+  <script src="app.js" defer></script>
 </head>
 <body>
-  <div id="preloader">
-   
-  </div>
-  <section id="navbar">
-    <div class="navbar">
-        <!-- Logo on the left -->
-        <a href="#contact">
-          <img src="dp.png" alt="Logo">
-        </a>
-
-        <!-- Navigation links on the right -->
-        <div>
-            <a href="#contact">Home</a>
-            <a href="#projects">Works</a>
-            <a href="#about">About</a>
-            <a href="images/RESUME.pdf">Resume</a>
-        </div>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="reading-progress" aria-hidden="true"></div>
+  <header class="site-header">
+    <a class="wordmark" href="#home" aria-label="Home"><span class="brand-logo"><img src="assets/personal-logo.png" alt="Muhammed Salman Android avatar logo"></span><span data-name>Muhammed Salman</span><span class="brand-period">.</span></a>
+    <nav class="desktop-nav" aria-label="Main navigation"><a href="#work">Work <span>04</span></a><a href="#about">About</a><a href="#experience">Experience</a><a href="#toolkit">Skills</a></nav>
+    <div class="header-actions"><button class="talk-link" data-contact>Let’s talk <span aria-hidden="true">↗</span></button><button class="menu-toggle" aria-label="Open navigation" aria-expanded="false" aria-controls="mobile-nav"><span></span><span></span></button></div>
+    <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile navigation" hidden><a href="#work">Selected work</a><a href="#about">About me</a><a href="#experience">Experience</a><a href="#toolkit">Skills</a><button data-contact>Let’s talk ↗</button></nav>
+  </header>
+  <main id="main">
+    <div class="hero-scroll-track">
+    <span id="profile" class="legacy-anchor" aria-hidden="true"></span><section class="hero section-wrap" id="home" aria-labelledby="hero-title">
+      <div class="hero-grid" aria-hidden="true"></div><div class="hero-glow" aria-hidden="true"></div><span class="hero-ghost" aria-hidden="true">SALMAN</span>
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="status-dot"></span> <span data-role>ANDROID DEVELOPER</span></p>
+        <h1 id="hero-title"><span class="hero-title-line"><span class="title-inner">Android.</span></span><span class="hero-title-line hero-title-small"><span class="title-inner">Built with</span></span><span class="hero-title-line hero-title-accent"><span class="title-inner">intention<span class="title-dot">.</span></span></span></h1>
+        <p class="hero-description">Native Android. Shared Kotlin.<br>Thoughtful experiences, from the first tap onward.</p>
+        <div class="hero-cta"><a class="button button-dark" href="#work">Explore my work <span aria-hidden="true">↘</span></a><a class="hero-github" href="https://github.com/MhmdSalman18" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a></div>
+      </div>
+      <div class="hero-visual tech-universe" aria-hidden="true">
+        <div class="tech-orbit orbit-a"></div><div class="tech-orbit orbit-b"></div><div class="tech-orbit orbit-c"></div>
+        <div class="android-stage"><div class="android-mascot"><div class="bot-head"><i></i><i></i></div><div class="bot-body"></div><div class="bot-arm arm-left"></div><div class="bot-arm arm-right"></div><div class="bot-leg leg-left"></div><div class="bot-leg leg-right"></div></div><div class="bot-shadow"></div></div>
+        <div class="tech-tile tech-kotlin"><span class="tech-icon kotlin-logo"></span><span>Kotlin<small>Expressive by nature.</small></span></div>
+        <div class="tech-tile tech-play"><span class="tech-icon play-logo"></span><span>Google Play<small>Ideas, out in the world.</small></span></div>
+        <div class="tech-tile tech-flutter"><span class="tech-icon flutter-logo"><i></i><b></b></span><span>Flutter<small>Beyond one platform.</small></span></div>
+        <div class="tech-tile tech-compose"><span class="tech-icon compose-logo"><i></i></span><span>Jetpack Compose<small>Built one detail at a time.</small></span></div>
+        <span class="tech-code code-one">&lt; / &gt;</span><span class="tech-code code-two">{ }</span><span class="tech-caption">THE MOBILE ECOSYSTEM / MADE TO MOVE</span>
+      </div>
+      <div class="hero-bottom"><span class="hero-stage-label">01 / THE INTRODUCTION</span><span class="hero-scroll-meter"><i></i></span><span class="hero-coordinates">SCROLL TO DISCOVER <span aria-hidden="true">↓</span></span></div>
+    </section>
     </div>
-</section>
-
-    <section id="profile">
-        <table">
-          <tr >
-            <td></td>
-            <td class="td-1">
-              <h1>Hello! I'm Muhammed Salman</h1>
-              <p>
-                Read about me >
-              </p>
-             
-            </td>
-          </tr>
-          <tr>
-            <td><a  class="btn" href="#contact">CONTACT ME</a>
-            </td>
-            <td><a class="btn" href="#skills">MY PROFILE</a>
-            </td>
-          </tr>
-        </table>
-    </section>
-  
-    <section id="projects">
-      <h1>MY PROJECTS</h1>
-      <div class="projects">
-        <div class="project-item">
-          <img class="image1" src="images/Instagram post - 2.png" alt="Project 1">
-          <h2>Bus Tracking App</h2>
-          <!-- <p>Description for Project 1</p> -->
-        </div>
-        <div class="project-item">
-          <img  class="image1" src="images/Instagram post - 3.png" alt="Project 2">
-          <h2>OLX For College</h2>
-          <!-- <p>Description for Project 2</p> -->
-        </div>
-        <div class="project-item">
-          <img  class="image1" src="images/Instagram post - 5.png" alt="Project 3">
-          <h2>Menu Explorer</h2>
-          <!-- <p>Description for Project 3</p> -->
-        </div>
-        <div class="project-item">
-          <img  class="image1" src="images/Instagram post - 1.png" alt="Project 4">
-          <h2> Trip Planning App</h2>
-         
-          <!-- <p>Description for Project 4</p> -->
-        </div>
+    <div class="ticker" aria-hidden="true"><div class="ticker-track"><span>KOTLIN</span><i>✳</i><span>JETPACK COMPOSE</span><i>✳</i><span>BUILT WITH INTENTION</span><i>✳</i><span>ANDROID</span><i>✳</i><span>KOTLIN</span><i>✳</i><span>JETPACK COMPOSE</span><i>✳</i><span>BUILT WITH INTENTION</span><i>✳</i><span>ANDROID</span><i>✳</i></div></div>
+    <span id="projects" class="legacy-anchor" aria-hidden="true"></span><section class="work-section section-wrap" id="work" aria-labelledby="work-title">
+      <div class="section-heading reveal"><div><p class="eyebrow section-number">01 / SELECTED WORK</p><h2 id="work-title">A few things<br>I’ve <span class="serif-word">brought to life.</span></h2></div><p class="section-side-note">From a small idea<br>to the palm of your hand.<span class="sample-label">Project campaigns · explore the case studies</span></p></div>
+      <div class="work-toolbar"><span class="work-count" aria-live="polite">4 selected projects</span><div class="filters" role="group" aria-label="Filter projects"><button class="filter active" aria-pressed="true" data-filter="all">All work <span>04</span></button><button class="filter" aria-pressed="false" data-filter="android">Android</button><button class="filter" aria-pressed="false" data-filter="kmp">Multiplatform</button><button class="filter" aria-pressed="false" data-filter="flutter">Flutter</button></div></div>
+      <div class="project-grid">
+        <article class="project-card reveal" data-category="kmp" id="project-kadi">
+          <button class="project-visual campaign-poster campaign-kadi" data-project="kadi" aria-label="Explore Kadi Undo case study">
+            <span class="poster-topline"><span class="poster-brand">Kadi Undo</span><span class="poster-category">COMMUNITY DISCOVERY</span></span>
+            <span class="poster-copy"><span class="poster-kicker">A LITTLE LOCAL GOODNESS</span><strong>Tea time,<br><em>sorted.</em></strong><span class="poster-description">Today’s snacks. Nearby places.<br>A little moment for yourself.</span></span>
+            <span class="poster-art art-drift"><svg viewBox="0 0 400 330" aria-hidden="true"><defs><linearGradient id="tea-cup" x2="1" y2="1"><stop stop-color="#ebbd79"/><stop offset=".5" stop-color="#d99449"/><stop offset="1" stop-color="#ad6133"/></linearGradient><linearGradient id="tea-top" x2="0" y2="1"><stop stop-color="#b25f2b"/><stop offset="1" stop-color="#713d28"/></linearGradient></defs><ellipse cx="238" cy="282" rx="133" ry="21" fill="#38523a" opacity=".12"/><ellipse cx="230" cy="264" rx="129" ry="19" fill="#d9c9a7"/><ellipse cx="230" cy="259" rx="107" ry="13" fill="#efe1c2"/><path d="M292 130h23c56 0 57 80 4 80h-25" fill="none" stroke="#b9783d" stroke-width="23"/><path d="M136 120h173l-14 99c-6 56-136 56-145 0Z" fill="url(#tea-cup)"/><ellipse cx="222" cy="121" rx="87" ry="23" fill="#f2cd92"/><ellipse cx="222" cy="121" rx="76" ry="16" fill="url(#tea-top)"/><path d="M158 143 169 213c3 17 17 29 30 32" fill="none" stroke="#f9d696" stroke-width="5" opacity=".55"/><path d="M194 86c-34-27 22-39 0-69m37 64c-30-23 22-41 4-67m34 72c-24-21 21-33 9-53" stroke="#a5784f" stroke-width="3" fill="none" stroke-linecap="round" opacity=".7"/><g transform="translate(13 197) rotate(-17)"><ellipse cx="47" cy="72" rx="59" ry="13" fill="#ab8a4f" opacity=".18"/><path d="M9 15c13-17 25-12 23 7L26 83c-1 18-25 11-26-3Z" fill="#ca8d3b"/><path d="M42 3c12-13 22-5 20 11L54 80c-2 16-23 11-23-3Z" fill="#dbab56"/><path d="M73 16c12-12 24-4 20 15L78 91c-4 16-25 6-21-7Z" fill="#bd7c31"/><path d="m15 20-4 57m37-60-8 54m37-44-12 51" stroke="#efc97c" stroke-width="4" stroke-linecap="round"/></g><path d="M325 34c0-23 33-23 33 0 0 15-16 29-16 29s-17-14-17-29Z" fill="#37573f"/><circle cx="342" cy="33" r="6" fill="#e8e3c8"/><path d="M52 143c32-55 74-60 105-48" stroke="#6b7d51" stroke-width="1.5" stroke-dasharray="4 7" fill="none"/></svg></span>
+            <span class="poster-footer"><span>DISCOVER · SHARE · UNWIND</span><span>01 / CAMPAIGN ART</span></span><span class="open-circle" aria-hidden="true">↗</span>
+          </button>
+          <div class="project-meta"><div><h3>Kadi Undo</h3><p>Community snack discovery, closer to home.</p></div><span>Community app <b>Android-first KMP</b></span></div><div class="project-tags"><span>Kotlin Multiplatform</span><span>Compose Multiplatform</span><span>Supabase</span><span>MapLibre</span></div>
+        </article>
+        <article class="project-card reveal" data-category="android" id="project-credence">
+          <button class="project-visual campaign-poster campaign-credence" data-project="credence" aria-label="Explore CredenceAI case study">
+            <span class="poster-topline"><span class="poster-brand">CredenceAI</span><span class="poster-category">PERSONAL FINANCE</span></span>
+            <span class="poster-copy"><span class="poster-kicker">YOUR MONEY. A CLEARER STORY.</span><strong>Less logging.<br><em>More living.</em></strong><span class="poster-description">Turn everyday payment notifications<br>into a clearer view of your spending.</span></span>
+            <span class="poster-art art-drift"><svg viewBox="0 0 400 340" aria-hidden="true"><defs><radialGradient id="coin-glow"><stop stop-color="#d8b9fa" stop-opacity=".5"/><stop offset="1" stop-color="#b997ed" stop-opacity="0"/></radialGradient><linearGradient id="coin-metal" x2="1" y2="1"><stop stop-color="#f4e5ff"/><stop offset=".3" stop-color="#cba9e5"/><stop offset=".55" stop-color="#9b78c1"/><stop offset=".8" stop-color="#ead5fb"/><stop offset="1" stop-color="#8862af"/></linearGradient><linearGradient id="coin-face" x2="1" y2="1"><stop stop-color="#d8bcef"/><stop offset="1" stop-color="#8b68b3"/></linearGradient></defs><circle cx="225" cy="188" r="170" fill="url(#coin-glow)"/><g fill="none" stroke="#baa2d0" stroke-width="1" opacity=".45"><ellipse cx="220" cy="186" rx="178" ry="72" transform="rotate(-27 220 186)"/><ellipse cx="220" cy="186" rx="167" ry="62" transform="rotate(33 220 186)"/></g><ellipse cx="229" cy="289" rx="104" ry="15" fill="#0d091c" opacity=".35"/><g transform="rotate(-16 223 179)"><ellipse cx="231" cy="183" rx="95" ry="112" fill="#74518e"/><ellipse cx="219" cy="177" rx="95" ry="112" fill="url(#coin-metal)"/><ellipse cx="219" cy="177" rx="80" ry="98" fill="url(#coin-face)" stroke="#e3c9f5" stroke-width="2"/><ellipse cx="219" cy="177" rx="71" ry="88" fill="none" stroke="#f4dfff" opacity=".4"/><text x="219" y="212" font-family="Georgia,serif" font-size="108" text-anchor="middle" fill="#352543">₹</text></g><g fill="#e7ccff"><circle cx="64" cy="228" r="5"/><circle cx="350" cy="103" r="4"/><path d="m316 26 5 15 15 5-15 5-5 15-5-15-15-5 15-5Z"/><path d="m97 112 3 9 9 3-9 3-3 9-3-9-9-3 9-3Z"/></g></svg></span>
+            <span class="poster-footer"><span>AUTO LOGGING · LOCAL PARSING · BUDGETS</span><span>02 / CAMPAIGN ART</span></span><span class="open-circle" aria-hidden="true">↗</span>
+          </button><div class="project-meta"><div><h3>CredenceAI</h3><p>Notification-driven expense tracking.</p></div><span>Finance app <b>Native Android</b></span></div><div class="project-tags"><span>Kotlin</span><span>Jetpack Compose</span><span>Room</span><span>Hilt</span></div>
+        </article>
+        <article class="project-card reveal" data-category="android" id="project-valet">
+          <button class="project-visual campaign-poster campaign-valet" data-project="valet" aria-label="Explore Prime Valet case study">
+            <span class="poster-topline"><span class="poster-brand">Prime Valet</span><span class="poster-category">PROFESSIONAL WORK</span></span>
+            <span class="poster-copy"><span class="poster-kicker">EVERY DETAIL, CONNECTED.</span><strong>Every arrival.<br><em>Handled.</em></strong><span class="poster-description">Connected valet workflows,<br>from parking to vehicle return.</span></span>
+            <span class="poster-art art-drift"><svg viewBox="0 0 440 310" aria-hidden="true"><defs><linearGradient id="car-metal" x2=".3" y2="1"><stop stop-color="#d4e2e9"/><stop offset=".3" stop-color="#8ba5b7"/><stop offset=".55" stop-color="#54748c"/><stop offset="1" stop-color="#314e65"/></linearGradient><linearGradient id="car-glass" x2="1" y2="1"><stop stop-color="#7091a8"/><stop offset="1" stop-color="#152e43"/></linearGradient></defs><g stroke="#bdd4e2" fill="none" opacity=".18"><path d="M-20 240 470 91M-20 272 470 123"/><path d="m29 235 368-111" stroke-dasharray="25 19"/></g><ellipse cx="247" cy="253" rx="172" ry="22" fill="#030c15" opacity=".4"/><path d="m58 186 24-38 65-19 33-45 104-8 73 53 43 22 19 41-8 41-331 7-29-20Z" fill="url(#car-metal)"/><path d="m158 129 31-38 88-5 61 44Z" fill="url(#car-glass)"/><path d="M243 88v43m-85-1 183 2" stroke="#9eb7c7" stroke-width="4"/><path d="m61 185 81 10 244-11 27 11-9 30-268 9-70-15Z" fill="#46667f"/><path d="m60 177 82 12 11 13-83-9Z" fill="#e2eef2"/><path d="m350 176 52-5 9 12-62 7Z" fill="#eaf6fa"/><path d="M155 218h198" stroke="#bad3df" stroke-width="2"/><path d="M172 159h21m76-2h21" stroke="#c2d7e1" stroke-width="3" stroke-linecap="round"/><g fill="#112333" stroke="#809aaa" stroke-width="6"><ellipse cx="119" cy="225" rx="26" ry="31"/><ellipse cx="352" cy="219" rx="26" ry="31"/></g><g fill="#91aabb"><ellipse cx="119" cy="225" rx="13" ry="17"/><ellipse cx="352" cy="219" rx="13" ry="17"/></g><g transform="translate(27 29) rotate(-16)"><path d="M14 0h31a10 10 0 0 1 10 10v65a10 10 0 0 1-10 10H14A10 10 0 0 1 4 75V10A10 10 0 0 1 14 0Z" fill="#9bb1c1"/><rect x="10" y="7" width="39" height="67" rx="8" fill="#1b344a"/><path d="M25 28h10m-10 13h10m-10 13h10" stroke="#aac4d5" stroke-width="3" stroke-linecap="round"/><path d="M24 85v15h11V85" stroke="#aac4d5" stroke-width="3" fill="none"/></g></svg></span>
+            <span class="poster-footer"><span>PARKING · RETURNS · INCIDENT REPORTING</span><span>03 / CAMPAIGN ART</span></span><span class="open-circle" aria-hidden="true">↗</span>
+          </button><div class="project-meta"><div><h3>Prime Valet</h3><p>Connected workflows for valet operations.</p></div><span>Company project <b>Selected Android contributions</b></span></div><div class="project-tags"><span>Kotlin</span><span>Jetpack Compose</span><span>Retrofit</span><span>Room</span><span>Hilt</span></div>
+        </article>
+        <article class="project-card reveal" data-category="flutter" id="project-eco"><button class="project-visual campaign-poster campaign-eco" data-project="eco" aria-label="Explore EcoMap case study">
+            <span class="poster-topline"><span class="poster-brand">EcoMap</span><span class="poster-category">BIODIVERSITY MAPPING</span></span>
+            <span class="poster-copy"><span class="poster-kicker">NOTICE NATURE. MAKE IT COUNT.</span><strong>Small sightings.<br><em>Bigger picture.</em></strong><span class="poster-description">Capture a species. Mark a place.<br>Help map the life around us.</span></span>
+            <span class="poster-art art-drift"><svg viewBox="0 0 400 350" aria-hidden="true"><defs><linearGradient id="eco-leaf" x2="1" y2="1"><stop stop-color="#cadf93"/><stop offset="1" stop-color="#628d51"/></linearGradient><radialGradient id="eco-hot"><stop stop-color="#f4bb63" stop-opacity=".8"/><stop offset=".4" stop-color="#d9d96a" stop-opacity=".35"/><stop offset="1" stop-color="#95c76d" stop-opacity="0"/></radialGradient></defs><g fill="none" stroke="#bdd4a2" opacity=".18"><path d="M-20 220c80-140 91 112 194-45S289 81 420 10M-10 249c80-140 91 112 194-45S299 108 430 38M0 279c80-140 91 112 194-45S309 137 440 68M10 309c80-140 91 112 194-45S319 167 450 98"/><path d="M-30 131c170-119 160 150 316-17S408 66 442 58"/></g><circle cx="233" cy="216" r="114" fill="url(#eco-hot)"/><path d="M224 298c-27-109-16-146 54-215" fill="none" stroke="#d0ddab" stroke-width="3"/><path d="M230 244c-79-9-108-71-94-134 72 7 109 56 94 134Z" fill="url(#eco-leaf)"/><path d="M230 244c47-81 125-89 164-53-25 66-98 88-164 53Z" fill="#94b56e"/><path d="M243 172c-14-64 26-119 77-133 23 57-9 116-77 133Z" fill="#d1e29d"/><path d="m150 133 80 111 139-45m-126-27 65-110" stroke="#355c43" stroke-width="1.5" fill="none" opacity=".6"/><g transform="translate(91 71) rotate(-22)"><path d="M0 14c-44-58-79-18-42 18-38 12-14 52 15 24L0 28" fill="#dba15c"/><path d="M0 14c44-58 79-18 42 18 38 12 14 52-15 24L0 28" fill="#f0c17c"/><path d="M0 8v40m0-39-8-12m8 12L8-3" stroke="#344e36" stroke-width="3" fill="none" stroke-linecap="round"/></g><g fill="#edce7f"><circle cx="313" cy="286" r="5"/><circle cx="111" cy="262" r="4"/><circle cx="352" cy="120" r="4"/></g><g fill="none" stroke="#edce7f" opacity=".45"><circle cx="313" cy="286" r="15"/><circle cx="111" cy="262" r="13"/><circle cx="352" cy="120" r="12"/></g></svg></span>
+            <span class="poster-footer"><span>CAPTURE · GEOTAG · CONSERVE</span><span>04 / CAMPAIGN ART</span></span><span class="open-circle" aria-hidden="true">↗</span>
+          </button><div class="project-meta"><div><h3>EcoMap</h3><p>Community-driven biodiversity mapping.</p></div><span>Nature &amp; conservation <b>Flutter · Android APK</b></span></div><div class="project-tags"><span>Flutter</span><span>Dart</span><span>MapLibre</span><span>MongoDB</span></div></article>
+      </div>
+      <div class="github-more" aria-labelledby="github-more-title">
+        <div><p class="eyebrow">KEEP EXPLORING</p><h3 id="github-more-title">More on GitHub<span>.</span></h3><p>Browse more of my apps and projects.</p></div>
+        <a class="button button-dark" href="https://github.com/MhmdSalman18" target="_blank" rel="noopener noreferrer">Explore my GitHub <span aria-hidden="true">↗</span></a>
       </div>
     </section>
-    
-
-    <section id="skills">
-       
-       
-    </section>
-    
-
-    <section id="about">
-      <h1>ABOUT ME</h1>
-      <div class="about">
-        <p>
-          I am passionate about frontend web developer and UI designer, I breathe life into digital landscapes. With a passion for crafting seamless and visually captivating user interfaces, I specialize in building responsive websites and creating dynamic app experiences.
-        </p>
-        
-        <ul>
-          <li>🎨 Design Visionary: My journey is fueled by a love for aesthetics and an obsession with user-centric design. From concept to code, I translate ideas into stunning visual narratives, ensuring a delightful user journey every step of the way.</li>
-          
-          <li>💻 Code Poet: Proficient in the art of coding, I bring websites to life with clean, efficient, and scalable frontend development. My expertise lies in creating not just functional, but truly enjoyable digital spaces.</li>
-          
-          <li>🌐 Adaptable & Creative: Whether it's a sleek web interface or a mobile app UI, I thrive on challenges. My designs are not just pixel-perfect; they resonate with the essence of the brand, enhancing the user experience and leaving a lasting impression.</li>
-          
-          <li>🤝 Collaboration is Key: I believe in the power of collaboration. Working closely with clients, I turn visions into reality, ensuring that every project reflects their unique identity and goals.</li>
-        </ul>
-<!--         <h2>SKILLS : </h2>
-        <div class="tools"> -->
-          
-          <br>
-<!--             <div class="figma"><p>Figma</p></div>
-            <div class="ai"><p>Adobe Illustrator</p></div>
-
-            <div class="ps"><p>Adobe PhotoShop</p></div>
-            <div class="frontend"><p>Frontend Development</p></div>
-            <div class="logo"><p>Logo Design</p></div> -->
-            
-         
-        </div>
+    <section class="about-section section-wrap" id="about" aria-labelledby="about-title"><div class="about-art personal-art reveal" aria-hidden="true"><span class="about-art-label">A LITTLE ABOUT ME</span><img class="about-personal-logo" src="assets/personal-logo.png" alt=""><span class="about-art-bottom">CURIOUS MIND.<br>BUILDER AT HEART.</span><span class="about-art-arrow">↗</span></div><div class="about-copy reveal"><p class="eyebrow section-number">02 / BEHIND THE SCREENS</p><h2 id="about-title">Android,<br>with <span class="serif-word">intention.</span></h2><p class="about-lead" data-bio>I’m Muhammed Salman, an Android developer building practical experiences with Kotlin and Jetpack Compose—from community discovery and finance tools to professional valet workflows.</p><p class="about-detail" data-bio-detail>My recent work spans Kotlin Multiplatform, Flutter, Supabase-backed features, on-device notification parsing, and resilient photo-upload flows. I care about clear interfaces and the edge cases that make an app dependable.</p><div class="profile-facts"><div><span>ROLE</span><strong data-role>Android Developer</strong></div><div><span>RECENT WORK</span><strong>Android &amp; KMP</strong></div></div><button class="text-link" data-link="resume">View résumé <span aria-hidden="true">↗</span></button></div></section>
+    <section class="experience-section section-wrap" id="experience" aria-labelledby="experience-title">
+      <div class="section-heading reveal"><div><p class="eyebrow section-number">03 / EXPERIENCE</p><h2 id="experience-title">Built for<br><span class="serif-word">the real world.</span></h2></div><p class="section-side-note">From a first internship to shipping production Android apps.</p></div>
+      <div class="experience-timeline">
+        <article class="experience-entry reveal"><div class="experience-date"><span class="experience-current">CURRENT ROLE</span><p>May 2025 — Present</p><span>Kerala, India</span></div><div class="experience-detail"><h3>Android Developer</h3><p class="experience-company">Oges Infotech</p><p>Building production Android applications across finance, e-commerce, attendance, church management, and enterprise ERP.</p><ul><li>Contributed to 20+ Android apps and independently built and published 5+ apps on Google Play using Kotlin, Jetpack Compose, and MVVM.</li><li>Refactored legacy UI and API handling, reducing average screen load times and reported UI bugs by 30%.</li><li>Created reusable Compose components and a church app template used across 5+ client deployments, cutting setup time from weeks to days.</li><li>Collaborated with clients and backend teams on REST API contracts for ERP and attendance systems handling 500+ daily records and transactions.</li></ul><div class="project-tags"><span>Kotlin</span><span>Jetpack Compose</span><span>MVVM</span><span>REST APIs</span><span>Google Play</span></div></div></article>
+        <article class="experience-entry reveal"><div class="experience-date"><p>May 2023 — June 2023</p><span>Startup Valley, AJCE, Kerala</span></div><div class="experience-detail"><h3>Flutter Developer Intern</h3><p class="experience-company">Leopard Tech Labs</p><p>Built a Flutter food delivery application from scratch and handed it off to the core team.</p><ul><li>Integrated REST APIs for menus, orders, and real-time order status.</li><li>Delivered a responsive interface and maintainable implementation.</li></ul><div class="project-tags"><span>Flutter</span><span>REST APIs</span><span>Responsive UI</span></div></div></article>
       </div>
-      
     </section>
-    
-
-
-
-    <section id="certificates"> 
-      </section>
-      
-      <section id="education">
-      </section>
-     
-      <section id="contact">
-       
-    
-
-       
-         <h1>CONTACT ME</h1>
-        
-              <div class="social">
-
-                <a href="https://www.facebook.com/profile.php?id=100041567085557"><i class="fa-brands fa-square-facebook fa-2x"></i> </a> 
-                <a href="https://twitter.com/Muhamme64852856"><i class="fa-brands fa-twitter fa-2x" ></i></a> 
-                <a href="https://www.linkedin.com/in/muhammed-salman-40177b225"><i class="fa-brands fa-linkedin fa-2x"></i> </a>
-                <a href="https://www.instagram.com/mhmd_salman18/"><i class="fa-brands fa-instagram fa-2x"></i></a> 
-                <a href="https://youtube.com/channel/UCYDzVOwBT-wLWDmMjRiAhJw"><i class="fa-brands fa-youtube fa-2x"></i> </a> 
-                <a href="https://www.reddit.com/u/Rough_insane?utm_medium=android_app&utm_source=share"><i class="fa-brands fa-reddit fa-2x" ></i></a> 
-                <a href="https://github.com/MhmdSalman18"><i class="fa-brands fa-github fa-2x" ></i></a> 
-            </div>
-          
-     
-          
-       
-  
-      </section>
-
-      <div class="footer">
-        <p>© Copyright Muhammed Salman</p>
-      </div>
-      <script src="script.js"></script>
-
-
-      
+    <span id="skills" class="legacy-anchor" aria-hidden="true"></span><section class="toolkit-section section-wrap" id="toolkit" aria-labelledby="toolkit-title"><div class="section-heading reveal"><div><p class="eyebrow section-number">04 / SKILLS &amp; TOOLS</p><h2 id="toolkit-title">Good ideas.<br><span class="serif-word">Solid foundations.</span></h2></div><p class="section-side-note">The tools behind the experience.<span class="sample-label">From production work to personal projects</span></p></div><div class="toolkit-grid"><div class="toolkit-list resume-skills">
+<div class="toolkit-row reveal"><span class="tool-number">01</span><div><h3>Android development</h3><p>Kotlin · Java · Android SDK · Jetpack Compose · XML Views · Android Jetpack · Material Design</p></div></div>
+<div class="toolkit-row reveal"><span class="tool-number">02</span><div><h3>Architecture & patterns</h3><p>MVVM · Clean Architecture · Repository Pattern · Dependency Injection · OOP</p></div></div>
+<div class="toolkit-row reveal"><span class="tool-number">03</span><div><h3>Networking & data</h3><p>REST APIs · JSON · API Integration · Local Storage</p></div></div>
+<div class="toolkit-row reveal"><span class="tool-number">04</span><div><h3>Firebase</h3><p>Cloud Messaging (FCM) · Authentication · Firestore · Storage · Crashlytics · Analytics</p></div></div>
+<div class="toolkit-row reveal"><span class="tool-number">05</span><div><h3>Cross-platform & delivery</h3><p>Flutter · Performance Optimization · Debugging · Data Structures & Algorithms</p></div></div>
+<div class="toolkit-row reveal"><span class="tool-number">06</span><div><h3>Everyday tools</h3><p>Git & GitHub · Android Studio · Figma</p></div></div>
+</div>
+<div class="code-card reveal"><div class="code-top"><span><i></i><i></i><i></i></span><span>Possibilities.kt</span><span>✳</span></div><div class="code-body"><div class="code-line"><b>01</b><code><em>@Composable</em></code></div><div class="code-line"><b>02</b><code><span>fun</span> BuildSomethingGreat() {</code></div><div class="code-line"><b>03</b><code>    <span>val</span> idea = remember {</code></div><div class="code-line"><b>04</b><code>        mutableStateOf(<q>What if?</q>)</code></div><div class="code-line"><b>05</b><code>    }</code></div><div class="code-line"><b>06</b><code> </code></div><div class="code-line"><b>07</b><code>    <i>// Small details. Real possibility.</i></code></div><div class="code-line"><b>08</b><code>    Experience(</code></div><div class="code-line"><b>09</b><code>        platform = <q>Android</q>,</code></div><div class="code-line"><b>10</b><code>        intention = <q>Human first</q></code></div><div class="code-line"><b>11</b><code>    )</code></div><div class="code-line"><b>12</b><code>}</code></div></div><div class="code-bottom"><span class="status-dot"></span> AN IDEA IS A GOOD PLACE TO START.<span>KOTLIN</span></div></div></div></section>
+    <section class="contact-section" id="contact" aria-labelledby="contact-title"><div class="section-wrap contact-inner"><div class="contact-top"><p class="eyebrow">05 / WHAT’S NEXT?</p><span>GOOD WORK STARTS WITH A CONVERSATION.</span></div><h2 id="contact-title">Have an Android<br>role <span class="serif-word">in mind?</span><span class="contact-star parallax" data-speed="0.025" aria-hidden="true">✳</span></h2><div class="contact-bottom"><button class="button button-dark" data-contact>Let’s make it happen <span aria-hidden="true">↗</span></button><p>Interesting ideas. Meaningful products.<br>Let’s see what we can build together.</p></div></div></section>
+  </main>
+  <footer class="site-footer section-wrap"><a class="wordmark" href="#home"><span class="brand-logo"><img src="assets/personal-logo.png" alt="Muhammed Salman Android avatar logo"></span><span data-name>Muhammed Salman</span><span class="brand-period">.</span></a><span class="footer-credit">Built with care. Made for what’s next.</span><div class="footer-links"><button data-link="github">GitHub ↗</button><button data-link="linkedin">LinkedIn ↗</button><a href="#home" aria-label="Back to top">↑</a></div></footer>
+  <button class="motion-toggle" type="button" aria-pressed="false" aria-label="Reduce motion" title="Reduce motion"><span aria-hidden="true">◌</span><span class="motion-label">Motion on</span></button>
+  <button class="template-badge" data-template><span>✳</span> Portfolio draft</button>
+  <dialog id="project-dialog" class="case-dialog" aria-labelledby="case-title"><button class="dialog-close" aria-label="Close case study">×</button><div class="case-body"></div></dialog>
+  <dialog id="info-dialog" class="info-dialog" aria-labelledby="info-title"><button class="dialog-close" aria-label="Close dialog">×</button><div class="info-body"></div></dialog>
+  <div class="toast" role="status" hidden></div>
 </body>
 </html>
