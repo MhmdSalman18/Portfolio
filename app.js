@@ -111,115 +111,112 @@
   document.addEventListener('click',event=>{if(!mobileNav.hidden&&!$('.site-header').contains(event.target))closeMenu();});
   window.matchMedia('(min-width: 641px)').addEventListener('change',event=>{if(event.matches)closeMenu();});
 
-  // Native document scrolling drives a sequence of readable depth chapters.
-  const media=window.matchMedia('(prefers-reduced-motion: reduce)');
-  const motionButton=$('.motion-toggle');
-  const rail=$('.depth-rail'),stage=$('.depth-stage');
-  const panels=$$('.depth-panel');
-  const clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
-  let savedMotion;try{savedMotion=localStorage.getItem('portfolio-depth-motion-v1');}catch{}
-  let enabled=!media.matches&&savedMotion!=='off',framePending=false,active=0,applying=false;
-  let chapters=[],journeyLength=0;
-  const aliases={profile:'home',projects:'work',skills:'toolkit'};
-  const counter=$('.depth-counter'),name=$('.depth-name'),prev=$('[data-depth-prev]'),next=$('[data-depth-next]');
-  function layout(){
-    if(!enabled)return;
-    let start=0;
-    const transition=Math.max(400,stage.clientHeight*.95);
-    chapters=panels.map((p,i)=>{
-      const c=$('.depth-content',p);c.style.transform='none';
-      const style=getComputedStyle(p);
-      const available=stage.clientHeight-parseFloat(style.paddingTop)-parseFloat(style.paddingBottom);
-      const read=Math.max(0,c.offsetHeight-available);
-      p.style.alignItems=read>0?'flex-start':'center';
-      p.dataset.readDistance=String(Math.ceil(read));
-      const chapter={start,read,transition};
-      start+=read+(i<panels.length-1?transition:0);
-      return chapter;
+  // Scroll-driven layers work without native CSS scroll-timeline support.
+  // Ordinary page scrolling stays intact; only the hero scene is temporarily pinned.
+  const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const motionButton = $('.motion-toggle');
+  const track = $('.hero-scroll-track');
+  const hero = $('.hero');
+  const scene = $('.hero-visual');
+  const header = $('.site-header');
+  const art = $$('.project-visual .art-drift');
+  const parallax = $$('.parallax').filter(el => !el.closest('.hero'));
+  const motionKey = 'portfolio-motion-v2';
+  let savedMotion;
+  try { savedMotion = localStorage.getItem(motionKey); } catch {}
+  let motionEnabled = !media.matches && savedMotion !== 'off';
+  let framePending = false;
+  const clamp = (value, min = 0, max = 1) => Math.max(min, Math.min(max, value));
+
+  function updateScroll() {
+    framePending = false;
+    if (!motionEnabled) return;
+    const viewport = window.innerHeight;
+    const scroll = window.scrollY;
+    const max = document.documentElement.scrollHeight - viewport;
+    $('.reading-progress').style.transform = `scaleX(${max > 0 ? clamp(scroll / max) : 0})`;
+
+    const mobile = window.innerWidth <= 640;
+    const trackTop = track.getBoundingClientRect().top + scroll;
+    const start = Math.max(0, trackTop - (mobile ? 0 : header.offsetHeight));
+    const distance = mobile ? hero.offsetHeight * .82 : Math.max(1, track.offsetHeight - hero.offsetHeight);
+    const progress = clamp((scroll - start) / distance);
+    hero.style.setProperty('--hero-progress', progress.toFixed(4));
+    hero.dataset.scrollProgress = progress.toFixed(3);
+
+    parallax.forEach(el => {
+      const previous = Number(el.dataset.shift || 0);
+      const rect = el.getBoundingClientRect();
+      const top = rect.top - previous;
+      if (top + rect.height < -150 || top > viewport + 150) return;
+      const shift = clamp((viewport * .5 - top - rect.height * .5) * (Number(el.dataset.speed) || .1) * 2, -110, 110);
+      el.style.translate = `0 ${shift.toFixed(2)}px`;
+      el.dataset.shift = shift.toFixed(2);
     });
-    journeyLength=start;
-    rail.style.setProperty('--tunnel-height',`${journeyLength+stage.clientHeight}px`);
-    updateScroll();
-  }
-  function updateScroll(){
-    framePending=false;
-    const max=document.documentElement.scrollHeight-innerHeight;
-    $('.reading-progress').style.transform=`scaleX(${max>0?clamp(scrollY/max):0})`;
-    if(!enabled){
-      const center=innerHeight*.5;
-      active=panels.reduce((best,p,i)=>Math.abs(p.getBoundingClientRect().top-center)<Math.abs(panels[best].getBoundingClientRect().top-center)?i:best,0);
-      return;
-    }
-    if(!chapters.length)return;
-    const scroll=clamp(scrollY,0,journeyLength);
-    let index=0;
-    for(let i=1;i<chapters.length;i++){if(scroll>=chapters[i].start-.5)index=i;else break;}
-    const chapter=chapters[index],within=Math.max(0,scroll-chapter.start);
-    const mix=index===panels.length-1?0:clamp((within-chapter.read)/chapter.transition);
-    const incoming=Math.min(panels.length-1,index+1);
-    const current=mix>.5?incoming:index;
-    panels.forEach((p,i)=>{
-      const distance=i===index?mix:i===incoming?mix-1:i<index?2:-2;
-      const visible=i===index||i===incoming;
-      const opacity=i===index?clamp(1-mix*1.55):i===incoming?clamp(1-(1-mix)*1.55):0;
-      p.style.visibility=visible?'visible':'hidden';
-      p.style.opacity=String(index===panels.length-1&&i===index?1:opacity);
-      p.style.transform=`scale(${Math.exp(distance*.48).toFixed(4)})`;
-      const readOffset=i===index?Math.min(within,chapter.read):i<index?chapters[i].read:0;
-      $('.depth-content',p).style.transform=`translateY(${-readOffset}px)`;
-      p.style.zIndex=String(panels.length-i+2);
-      p.classList.toggle('is-current',i===current);
-      p.inert=i!==current;p.setAttribute('aria-hidden',String(i!==current));
-      p.dataset.depthProgress=distance.toFixed(3);
+
+    art.forEach(el => {
+      const frame = el.closest('.project-visual');
+      const rect = frame.getBoundingClientRect();
+      if (rect.bottom < -150 || rect.top > viewport + 150) return;
+      const progress = clamp((viewport - rect.top) / (viewport + rect.height));
+      const depth = (progress - .5) * 2;
+      const poster = el.classList.contains('poster-art');
+      const device = el.classList.contains('mini-phone') || el.classList.contains('valet-console');
+      el.style.translate = poster ? `0 ${(-depth * 35).toFixed(2)}px` : device ? `0 ${(-depth * 78).toFixed(2)}px` : `${(depth * 22).toFixed(2)}px ${(depth * 25).toFixed(2)}px`;
+      if (device || poster) el.style.rotate = `${(depth * (poster ? -2.5 : -5)).toFixed(2)}deg`;
+      frame.style.setProperty('--art-progress', progress.toFixed(4));
     });
-    active=current;counter.textContent=`${String(active+1).padStart(2,'0')} / ${String(panels.length).padStart(2,'0')}`;
-    name.textContent=panels[active].dataset.chapter;
-    prev.disabled=active===0;next.disabled=active===panels.length-1;
-    $$('.depth-ring').forEach((r,i)=>{r.style.transform=`scale(${1+mix*(i+1)*.65}) rotate(${mix*(i%2?2:-2)}deg)`;r.style.opacity=String(.8-mix*.45);});
-    $('.depth-grid').style.translate=`0 ${(-scroll*.035).toFixed(1)}px`;
-    if(document.activeElement?.closest('.depth-panel[inert]'))document.activeElement.blur();
-  }
-  function requestScrollUpdate(){if(!framePending){framePending=true;requestAnimationFrame(updateScroll);}}
-  function gotoPanel(index,smooth=true){
-    index=clamp(index,0,panels.length-1);active=index;
-    if(enabled)window.scrollTo({top:chapters[index]?.start||0,behavior:smooth?'smooth':'instant'});
-    else panels[index].scrollIntoView({behavior:media.matches?'instant':'smooth',block:'start'});
-  }
-  function hashTarget(hash){let id;try{id=decodeURIComponent(hash.replace(/^#/,''));}catch{return null;}
-    id=aliases[id]||id;const e=document.getElementById(id);return e?.closest('.depth-panel');}
-  document.addEventListener('click',e=>{
-    const link=e.target.closest('a[href^="#"]');if(!link||link.classList.contains('skip-link'))return;
-    const p=hashTarget(link.hash);if(!p)return;
-    e.preventDefault();closeMenu();history.pushState(null,'',link.hash);gotoPanel(panels.indexOf(p));
-  });
-  window.addEventListener('popstate',()=>{const p=hashTarget(location.hash);if(p)gotoPanel(panels.indexOf(p),false);});
-  prev.addEventListener('click',()=>gotoPanel(active-1));next.addEventListener('click',()=>gotoPanel(active+1));
-  function applyMotion(){
-    applying=true;
-    document.documentElement.classList.toggle('depth-on',enabled);
-    document.documentElement.dataset.motion=enabled?'on':'off';
-    document.documentElement.classList.remove('js-motion');
-    motionButton.setAttribute('aria-pressed',String(!enabled));
-    motionButton.setAttribute('aria-label',enabled?'Turn depth motion off':'Turn depth motion on');
-    motionButton.title=enabled?'Switch to normal scrolling':'Enable Depth Tunnel';
-    $('.motion-label').textContent=enabled?'Depth ON':'Depth OFF';
-    if(enabled){layout();gotoPanel(active,false);}else{
-      panels.forEach(p=>{p.inert=false;p.removeAttribute('aria-hidden');p.style.visibility='';p.style.opacity='';p.style.transform='';p.style.alignItems='';$('.depth-content',p).style.transform='';p.classList.remove('is-current');});
-      panels[active].scrollIntoView({behavior:'instant',block:'start'});
+    const photo = $('.about-personal-logo');
+    const portraitFrame = $('.personal-art').getBoundingClientRect();
+    if (portraitFrame.bottom > 0 && portraitFrame.top < viewport) {
+      const progress = clamp((viewport - portraitFrame.top) / (viewport + portraitFrame.height));
+      photo.style.transform = `translateY(${((progress - .5) * -44).toFixed(2)}px) scale(1.08)`;
     }
-    applying=false;
   }
-  motionButton.addEventListener('click',()=>{
-    if(media.matches){showToast('Your system has reduced motion enabled.');return;}
-    enabled=!enabled;savedMotion=enabled?'on':'off';try{localStorage.setItem('portfolio-depth-motion-v1',savedMotion);}catch{}
+  function requestScrollUpdate() {
+    if (!framePending && motionEnabled) { framePending = true; requestAnimationFrame(updateScroll); }
+  }
+  function applyMotion() {
+    document.documentElement.dataset.motion = motionEnabled ? 'on' : 'off';
+    document.documentElement.classList.toggle('js-motion', motionEnabled);
+    motionButton.setAttribute('aria-pressed', String(!motionEnabled));
+    motionButton.setAttribute('aria-label', motionEnabled ? 'Reduce motion' : 'Enable motion');
+    motionButton.title = motionEnabled ? 'Turn scroll animations off' : (media.matches ? 'System reduced motion is enabled' : 'Turn scroll animations on');
+    $('.motion-label').textContent = motionEnabled ? 'Motion ON' : 'Motion OFF';
+    if (motionEnabled) requestScrollUpdate();
+    else {
+      hero.style.setProperty('--hero-progress', '0');
+      hero.dataset.scrollProgress = '0';
+      [...parallax, ...art].forEach(el => { el.style.translate = ''; el.style.rotate = ''; el.dataset.shift = '0'; });
+      $('.android-mascot').style.transform = '';
+      $('.about-personal-logo').style.transform = '';
+    }
+  }
+  motionButton.addEventListener('click', () => {
+    if (media.matches) { showToast('Your system has reduced motion enabled.'); return; }
+    motionEnabled = !motionEnabled;
+    savedMotion = motionEnabled ? 'on' : 'off';
+    try { localStorage.setItem(motionKey, savedMotion); } catch {}
     applyMotion();
   });
-  const adapt=()=>{enabled=!media.matches&&savedMotion!=='off';applyMotion();};
-  media.addEventListener('change',adapt);
-  window.addEventListener('scroll',requestScrollUpdate,{passive:true});
-  window.addEventListener('resize',()=>{if(!applying){const i=active;layout();if(enabled)gotoPanel(i,false);}});
-  if('ResizeObserver'in window){let oldHeight=innerHeight;new ResizeObserver(()=>{if(innerHeight!==oldHeight){oldHeight=innerHeight;layout();}}).observe(document.documentElement);}
+  media.addEventListener('change', () => { motionEnabled = !media.matches && savedMotion !== 'off'; applyMotion(); });
+  window.addEventListener('scroll', requestScrollUpdate, {passive:true});
+  window.addEventListener('resize', requestScrollUpdate, {passive:true});
+  window.addEventListener('load', requestScrollUpdate);
+  if (document.fonts?.ready) document.fonts.ready.then(requestScrollUpdate);
+  scene.addEventListener('pointermove', event => {
+    if (!motionEnabled || event.pointerType !== 'mouse') return;
+    const rect = scene.getBoundingClientRect();
+    const x = (event.clientX - rect.left) / rect.width - .5;
+    const y = (event.clientY - rect.top) / rect.height - .5;
+    $('.android-mascot').style.transform = `perspective(1000px) rotateY(${x * 13}deg) rotateX(${-y * 10}deg)`;
+  });
+  scene.addEventListener('pointerleave', () => { $('.android-mascot').style.transform = ''; });
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(entries => entries.forEach(entry => {
+      if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+    }), {threshold:.08});
+    $$('.reveal').forEach(el => observer.observe(el));
+  } else { $$('.reveal').forEach(el => el.classList.add('visible')); }
   applyMotion();
-  const initial=hashTarget(location.hash);if(initial)gotoPanel(panels.indexOf(initial),false);
-  document.fonts?.ready.then(()=>{layout();if(enabled){const p=hashTarget(location.hash);if(p)gotoPanel(panels.indexOf(p),false);}});
 })();
