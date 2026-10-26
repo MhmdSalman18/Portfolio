@@ -111,170 +111,104 @@
   document.addEventListener('click',event=>{if(!mobileNav.hidden&&!$('.site-header').contains(event.target))closeMenu();});
   window.matchMedia('(min-width: 641px)').addEventListener('change',event=>{if(event.matches)closeMenu();});
 
-  // Scroll-driven layers work without native CSS scroll-timeline support.
-  // Ordinary page scrolling stays intact; only the hero scene is temporarily pinned.
-  const media = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const motionButton = $('.motion-toggle');
-  const track = $('.hero-scroll-track');
-  const hero = $('.hero');
-  const scene = $('.hero-visual');
-  const header = $('.site-header');
-  const art = $$('.project-visual .art-drift');
-  const parallax = $$('.parallax').filter(el => !el.closest('.hero'));
-  const motionKey = 'portfolio-motion-v2';
-  let savedMotion;
-  try { savedMotion = localStorage.getItem(motionKey); } catch {}
-  let motionEnabled = !media.matches && savedMotion !== 'off';
-  let framePending = false;
-  const clamp = (value, min = 0, max = 1) => Math.max(min, Math.min(max, value));
-
-  function updateScroll() {
-    framePending = false;
-    if (!motionEnabled) return;
-    const viewport = window.innerHeight;
-    const scroll = window.scrollY;
-    const max = document.documentElement.scrollHeight - viewport;
-    $('.reading-progress').style.transform = `scaleX(${max > 0 ? clamp(scroll / max) : 0})`;
-
-    const heroRect = hero.getBoundingClientRect();
-    const heroTop = heroRect.top + scroll;
-    const progress = clamp((scroll - heroTop) / Math.max(1, hero.offsetHeight));
-    hero.style.setProperty('--hero-progress', progress.toFixed(4));
-    hero.dataset.scrollProgress = progress.toFixed(3);
-
-    parallax.forEach(el => {
-      const previous = Number(el.dataset.shift || 0);
-      const rect = el.getBoundingClientRect();
-      const top = rect.top - previous;
-      if (top + rect.height < -150 || top > viewport + 150) return;
-      const shift = clamp((viewport * .5 - top - rect.height * .5) * (Number(el.dataset.speed) || .1) * 2, -110, 110);
-      el.style.translate = `0 ${shift.toFixed(2)}px`;
-      el.dataset.shift = shift.toFixed(2);
+  // Native document scrolling drives a sequence of readable depth chapters.
+  const media=window.matchMedia('(prefers-reduced-motion: reduce)');
+  const motionButton=$('.motion-toggle');
+  const rail=$('.depth-rail'),stage=$('.depth-stage');
+  const panels=$$('.depth-panel');
+  const clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
+  let savedMotion;try{savedMotion=localStorage.getItem('portfolio-motion-v2');}catch{}
+  const compact=window.matchMedia('(max-height: 699px)');
+  let enabled=!media.matches&&!compact.matches&&savedMotion!=='off',step=800,framePending=false,active=0,applying=false,autoFallback=false;
+  const aliases={profile:'home',projects:'work',skills:'toolkit'};
+  const counter=$('.depth-counter'),name=$('.depth-name'),prev=$('[data-depth-prev]'),next=$('[data-depth-next]');
+  function layout(){
+    if(!enabled)return;
+    step=Math.max(520,stage.clientHeight*.95);
+    rail.style.setProperty('--tunnel-height',`${(panels.length-1)*step+stage.clientHeight}px`);
+    panels.forEach(p=>{const c=$('.depth-content',p);c.style.transform='none';
+      const available=stage.clientHeight-(innerWidth<=640?110:125);
+      const natural=c.offsetHeight;
+      // Short windows use the full, static layout rather than compressing text.
+      p.dataset.fits=String(natural<=available+5);
     });
-
-    art.forEach(el => {
-      const frame = el.closest('.project-visual');
-      const rect = frame.getBoundingClientRect();
-      if (rect.bottom < -150 || rect.top > viewport + 150) return;
-      const progress = clamp((viewport - rect.top) / (viewport + rect.height));
-      const depth = (progress - .5) * 2;
-      const poster = el.classList.contains('poster-art');
-      const device = el.classList.contains('mini-phone') || el.classList.contains('valet-console');
-      el.style.translate = poster ? `0 ${(-depth * 12).toFixed(2)}px` : device ? `0 ${(-depth * 78).toFixed(2)}px` : `${(depth * 22).toFixed(2)}px ${(depth * 25).toFixed(2)}px`;
-      if (device || poster) el.style.rotate = `${(depth * (poster ? -.7 : -2)).toFixed(2)}deg`;
-      frame.style.setProperty('--art-progress', progress.toFixed(4));
+    if(panels.some(p=>p.dataset.fits==='false')){
+      autoFallback=true;enabled=false;applyMotion();return;
+    }
+    autoFallback=false;
+    updateScroll();
+  }
+  function updateScroll(){
+    framePending=false;
+    const max=document.documentElement.scrollHeight-innerHeight;
+    $('.reading-progress').style.transform=`scaleX(${max>0?clamp(scrollY/max):0})`;
+    if(!enabled)return;
+    const q=clamp(scrollY/step,0,panels.length-1),index=Math.floor(q);
+    const mix=clamp(q-index);
+    const incoming=Math.min(panels.length-1,index+1);
+    const current=mix>.5?incoming:index;
+    panels.forEach((p,i)=>{
+      const distance=i===index?mix:i===incoming?mix-1:i<index?2:-2;
+      const visible=i===index||i===incoming;
+      const opacity=i===index?clamp(1-mix*1.55):i===incoming?clamp(1-(1-mix)*1.55):0;
+      p.style.visibility=visible?'visible':'hidden';
+      p.style.opacity=String(index===panels.length-1&&i===index?1:opacity);
+      p.style.transform=`scale(${Math.exp(distance*.48).toFixed(4)})`;
+      p.style.zIndex=String(panels.length-i+2);
+      p.classList.toggle('is-current',i===current);
+      p.inert=i!==current;p.setAttribute('aria-hidden',String(i!==current));
+      p.dataset.depthProgress=distance.toFixed(3);
     });
-    const photo = $('.about-personal-logo');
-    const portraitFrame = $('.personal-art').getBoundingClientRect();
-    if (portraitFrame.bottom > 0 && portraitFrame.top < viewport) {
-      const progress = clamp((viewport - portraitFrame.top) / (viewport + portraitFrame.height));
-      photo.style.transform = `translateY(${((progress - .5) * -44).toFixed(2)}px) scale(1.08)`;
+    active=current;counter.textContent=`${String(active+1).padStart(2,'0')} / ${String(panels.length).padStart(2,'0')}`;
+    name.textContent=panels[active].dataset.chapter;
+    prev.disabled=active===0;next.disabled=active===panels.length-1;
+    $$('.depth-ring').forEach((r,i)=>{r.style.transform=`scale(${1+mix*(i+1)*.65}) rotate(${mix*(i%2?2:-2)}deg)`;r.style.opacity=String(.8-mix*.45);});
+    $('.depth-grid').style.translate=`0 ${(-q*28).toFixed(1)}px`;
+    if(document.activeElement?.closest('.depth-panel[inert]'))document.activeElement.blur();
+  }
+  function requestScrollUpdate(){if(!framePending){framePending=true;requestAnimationFrame(updateScroll);}}
+  function gotoPanel(index,smooth=true){
+    index=clamp(index,0,panels.length-1);active=index;
+    if(enabled)window.scrollTo({top:index*step,behavior:smooth?'smooth':'instant'});
+    else panels[index].scrollIntoView({behavior:media.matches?'instant':'smooth',block:'start'});
+  }
+  function hashTarget(hash){let id;try{id=decodeURIComponent(hash.replace(/^#/,''));}catch{return null;}
+    id=aliases[id]||id;const e=document.getElementById(id);return e?.closest('.depth-panel');}
+  document.addEventListener('click',e=>{
+    const link=e.target.closest('a[href^="#"]');if(!link||link.classList.contains('skip-link'))return;
+    const p=hashTarget(link.hash);if(!p)return;
+    e.preventDefault();closeMenu();history.pushState(null,'',link.hash);gotoPanel(panels.indexOf(p));
+  });
+  window.addEventListener('popstate',()=>{const p=hashTarget(location.hash);if(p)gotoPanel(panels.indexOf(p),false);});
+  prev.addEventListener('click',()=>gotoPanel(active-1));next.addEventListener('click',()=>gotoPanel(active+1));
+  function applyMotion(){
+    applying=true;
+    document.documentElement.classList.toggle('depth-on',enabled);
+    document.documentElement.dataset.motion=enabled?'on':'off';
+    document.documentElement.classList.remove('js-motion');
+    motionButton.setAttribute('aria-pressed',String(!enabled));
+    motionButton.setAttribute('aria-label',enabled?'Turn depth motion off':'Turn depth motion on');
+    motionButton.title=enabled?'Switch to normal scrolling':'Enable Depth Tunnel';
+    $('.motion-label').textContent=enabled?'Depth ON':'Depth OFF';
+    if(enabled){layout();gotoPanel(active,false);}else{
+      panels.forEach(p=>{p.inert=false;p.removeAttribute('aria-hidden');p.style.visibility='';p.style.opacity='';p.style.transform='';p.classList.remove('is-current');});
+      panels[active].scrollIntoView({behavior:'instant',block:'start'});
     }
+    applying=false;
   }
-  function requestScrollUpdate() {
-    if (!framePending && motionEnabled) { framePending = true; requestAnimationFrame(updateScroll); }
-  }
-  function applyMotion() {
-    document.documentElement.dataset.motion = motionEnabled ? 'on' : 'off';
-    document.documentElement.classList.toggle('js-motion', motionEnabled);
-    motionButton.setAttribute('aria-pressed', String(!motionEnabled));
-    motionButton.setAttribute('aria-label', motionEnabled ? 'Reduce motion' : 'Enable motion');
-    motionButton.title = motionEnabled ? 'Turn scroll animations off' : (media.matches ? 'System reduced motion is enabled' : 'Turn scroll animations on');
-    $('.motion-label').textContent = motionEnabled ? 'Motion ON' : 'Motion OFF';
-    if (motionEnabled) requestScrollUpdate();
-    else {
-      hero.style.setProperty('--hero-progress', '0');
-      hero.dataset.scrollProgress = '0';
-      [...parallax, ...art].forEach(el => { el.style.translate = ''; el.style.rotate = ''; el.dataset.shift = '0'; });
-      $('.android-mascot').style.transform = '';
-      $('.about-personal-logo').style.transform = '';
-    }
-  }
-  motionButton.addEventListener('click', () => {
-    if (media.matches) { showToast('Your system has reduced motion enabled.'); return; }
-    motionEnabled = !motionEnabled;
-    savedMotion = motionEnabled ? 'on' : 'off';
-    try { localStorage.setItem(motionKey, savedMotion); } catch {}
+  motionButton.addEventListener('click',()=>{
+    if(media.matches){showToast('Your system has reduced motion enabled.');return;}
+    if(compact.matches){showToast('Normal scrolling keeps all content readable on short screens.');return;}
+    enabled=!enabled;savedMotion=enabled?'on':'off';try{localStorage.setItem('portfolio-motion-v2',savedMotion);}catch{}
     applyMotion();
   });
-  media.addEventListener('change', () => { motionEnabled = !media.matches && savedMotion !== 'off'; applyMotion(); });
-  window.addEventListener('scroll', requestScrollUpdate, {passive:true});
-  window.addEventListener('resize', requestScrollUpdate, {passive:true});
-  window.addEventListener('load', requestScrollUpdate);
-  if (document.fonts?.ready) document.fonts.ready.then(requestScrollUpdate);
-  scene.addEventListener('pointermove', event => {
-    if (!motionEnabled || event.pointerType !== 'mouse') return;
-    const rect = scene.getBoundingClientRect();
-    const x = (event.clientX - rect.left) / rect.width - .5;
-    const y = (event.clientY - rect.top) / rect.height - .5;
-    $('.android-mascot').style.transform = `perspective(1000px) rotateY(${x * 5}deg) rotateX(${-y * 4}deg)`;
-  });
-  scene.addEventListener('pointerleave', () => { $('.android-mascot').style.transform = ''; });
-  if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver(entries => entries.forEach(entry => {
-      if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
-    }), {threshold:.08});
-    $$('.reveal').forEach(el => observer.observe(el));
-  } else { $$('.reveal').forEach(el => el.classList.add('visible')); }
+  const adapt=()=>{enabled=!media.matches&&!compact.matches&&savedMotion!=='off';applyMotion();};
+  media.addEventListener('change',adapt);
+  compact.addEventListener('change',adapt);
+  window.addEventListener('scroll',requestScrollUpdate,{passive:true});
+  window.addEventListener('resize',()=>{if(!applying){if(autoFallback){adapt();return;}const i=active;layout();if(enabled)gotoPanel(i,false);}});
+  if('ResizeObserver'in window){let oldHeight=innerHeight;new ResizeObserver(()=>{if(innerHeight!==oldHeight){oldHeight=innerHeight;layout();}}).observe(document.documentElement);}
   applyMotion();
-})();
-
-
-// Local, accessible exploration of documented project flows.
-(() => {
-  const scene=document.querySelector('.tech-universe');
-  document.querySelectorAll('[data-studio-scene]').forEach(button=>button.addEventListener('click',()=>{
-    scene.dataset.scene=button.dataset.studioScene;
-    document.querySelectorAll('[data-studio-scene]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
-  }));
-  const flows={
-    credence:[
-      ['Capture','A payment becomes an event.','Android notification access lets the app listen for relevant payment and bank alerts. Package checks and sender patterns filter what reaches the parser.','NotificationListenerService / user-granted access'],
-      ['Interpret','Make sense of the message.','A rules-based parser distinguishes debit and credit phrases, extracts amounts, and rejects OTPs, login reminders, and promotional messages.','Pure Kotlin / deterministic parsing'],
-      ['Persist','Keep transactions structured.','Repository interfaces connect the domain layer to Room DAOs. Local transaction storage supports the dashboard and CSV export.','Repository pattern / Room / Hilt'],
-      ['Present','Turn data into clarity.','ViewModels expose StateFlow to the Compose interface, bringing spending, income, and budget progress into a reactive dashboard.','ViewModel / StateFlow / Jetpack Compose']
-    ],
-    valet:[
-      ['Start','Meet the workflow where it is.','Incident reporting is available from both parking confirmation and vehicle return. Vehicle details are filled from the active workflow.','Kotlin / Jetpack Compose'],
-      ['Attach','Keep the evidence together.','Incident types come from the backend. The executive can attach photos, which upload before the incident report is submitted.','Retrofit / photo uploads'],
-      ['Recover','A failed upload is recoverable.','Incident details and attached photos remain available locally after an upload failure so the user can recover the draft.','Room / local draft recovery'],
-      ['Confirm','Success follows confirmation.','The app shows success only after the API confirms submission. The delivery flow returns Home before displaying the backend confirmation message.','REST API / explicit submission state']
-    ],
-    kadi:[
-      ['Discover','Start close to home.','Distance-based discovery offers 2, 5, 10, and 25 km radii, with nearby reports sorted by distance and shown on a map.','Kotlin Multiplatform / MapLibre'],
-      ['Contribute','Turn a find into a report.','Photo capture, compressed uploads, snack filters, and availability voting let the community share what is fresh nearby.','Compose Multiplatform / Supabase'],
-      ['Validate','Keep today relevant.','Server timestamps, idempotent submissions, daily report limits, and editable availability votes protect the reporting flow. Daily reports expire at Kerala midnight.','Server validation / shared repositories'],
-      ['Notify','Deliver useful updates.','A durable queue handles retries and lease recovery. Client checks reject duplicate, expired, or wrong-account notifications.','Durable queue / retry backoff / client validation']
-    ]
-  };
-  const section=document.querySelector('#engineering');
-  let project='credence',step=0;
-  const flow=section.querySelector('.build-flow');
-  function detail(){
-    const item=flows[project][step];
-    section.querySelector('.build-step').textContent=`${String(step+1).padStart(2,'0')} / ${project==='credence'?'CREDENCEAI':project==='valet'?'PRIME VALET':'KADI UNDO'}`;
-    section.querySelector('.build-detail h3').textContent=item[1];
-    section.querySelector('.build-detail p').textContent=item[2];
-    section.querySelector('.build-tech').textContent=item[3];
-    flow.querySelectorAll('button').forEach((b,i)=>b.setAttribute('aria-pressed',String(i===step)));
-  }
-  function render(){
-    flow.replaceChildren();
-    flows[project].forEach((item,i)=>{
-      const b=document.createElement('button');b.type='button';
-      const n=document.createElement('span');n.textContent=String(i+1).padStart(2,'0');
-      b.append(n,document.createTextNode(item[0]));
-      b.addEventListener('click',()=>{step=i;detail();});flow.append(b);
-    });detail();
-  }
-  section.querySelectorAll('[data-build]').forEach(b=>b.addEventListener('click',()=>{
-    project=b.dataset.build;step=0;
-    section.querySelectorAll('[data-build]').forEach(t=>t.setAttribute('aria-pressed',String(t===b)));
-    render();
-  }));
-  // Reuse the original case-study triggers, preserving native dialog behavior.
-  const full=section.querySelector('#build-case');
-  full.removeAttribute('data-project');
-  full.addEventListener('click',()=>document.querySelector(`.project-card [data-project="${project}"]`).click());
-  render();
+  const initial=hashTarget(location.hash);if(initial)gotoPanel(panels.indexOf(initial),false);
+  document.fonts?.ready.then(()=>{layout();if(enabled){const p=hashTarget(location.hash);if(p)gotoPanel(panels.indexOf(p),false);}});
 })();
