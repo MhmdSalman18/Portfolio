@@ -136,11 +136,9 @@
     const max = document.documentElement.scrollHeight - viewport;
     $('.reading-progress').style.transform = `scaleX(${max > 0 ? clamp(scroll / max) : 0})`;
 
-    const mobile = window.innerWidth <= 640;
-    const trackTop = track.getBoundingClientRect().top + scroll;
-    const start = Math.max(0, trackTop - (mobile ? 0 : header.offsetHeight));
-    const distance = mobile ? hero.offsetHeight * .82 : Math.max(1, track.offsetHeight - hero.offsetHeight);
-    const progress = clamp((scroll - start) / distance);
+    const heroRect = hero.getBoundingClientRect();
+    const heroTop = heroRect.top + scroll;
+    const progress = clamp((scroll - heroTop) / Math.max(1, hero.offsetHeight));
     hero.style.setProperty('--hero-progress', progress.toFixed(4));
     hero.dataset.scrollProgress = progress.toFixed(3);
 
@@ -162,8 +160,8 @@
       const depth = (progress - .5) * 2;
       const poster = el.classList.contains('poster-art');
       const device = el.classList.contains('mini-phone') || el.classList.contains('valet-console');
-      el.style.translate = poster ? `0 ${(-depth * 35).toFixed(2)}px` : device ? `0 ${(-depth * 78).toFixed(2)}px` : `${(depth * 22).toFixed(2)}px ${(depth * 25).toFixed(2)}px`;
-      if (device || poster) el.style.rotate = `${(depth * (poster ? -2.5 : -5)).toFixed(2)}deg`;
+      el.style.translate = poster ? `0 ${(-depth * 12).toFixed(2)}px` : device ? `0 ${(-depth * 78).toFixed(2)}px` : `${(depth * 22).toFixed(2)}px ${(depth * 25).toFixed(2)}px`;
+      if (device || poster) el.style.rotate = `${(depth * (poster ? -.7 : -2)).toFixed(2)}deg`;
       frame.style.setProperty('--art-progress', progress.toFixed(4));
     });
     const photo = $('.about-personal-logo');
@@ -209,7 +207,7 @@
     const rect = scene.getBoundingClientRect();
     const x = (event.clientX - rect.left) / rect.width - .5;
     const y = (event.clientY - rect.top) / rect.height - .5;
-    $('.android-mascot').style.transform = `perspective(1000px) rotateY(${x * 13}deg) rotateX(${-y * 10}deg)`;
+    $('.android-mascot').style.transform = `perspective(1000px) rotateY(${x * 5}deg) rotateX(${-y * 4}deg)`;
   });
   scene.addEventListener('pointerleave', () => { $('.android-mascot').style.transform = ''; });
   if ('IntersectionObserver' in window) {
