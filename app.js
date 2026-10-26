@@ -220,3 +220,63 @@
   } else { $$('.reveal').forEach(el => el.classList.add('visible')); }
   applyMotion();
 })();
+
+
+// Local, accessible exploration of documented project flows.
+(() => {
+  const scene=document.querySelector('.tech-universe');
+  document.querySelectorAll('[data-studio-scene]').forEach(button=>button.addEventListener('click',()=>{
+    scene.dataset.scene=button.dataset.studioScene;
+    document.querySelectorAll('[data-studio-scene]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
+  }));
+  const flows={
+    credence:[
+      ['Capture','A payment becomes an event.','Android notification access lets the app listen for relevant payment and bank alerts. Package checks and sender patterns filter what reaches the parser.','NotificationListenerService / user-granted access'],
+      ['Interpret','Make sense of the message.','A rules-based parser distinguishes debit and credit phrases, extracts amounts, and rejects OTPs, login reminders, and promotional messages.','Pure Kotlin / deterministic parsing'],
+      ['Persist','Keep transactions structured.','Repository interfaces connect the domain layer to Room DAOs. Local transaction storage supports the dashboard and CSV export.','Repository pattern / Room / Hilt'],
+      ['Present','Turn data into clarity.','ViewModels expose StateFlow to the Compose interface, bringing spending, income, and budget progress into a reactive dashboard.','ViewModel / StateFlow / Jetpack Compose']
+    ],
+    valet:[
+      ['Start','Meet the workflow where it is.','Incident reporting is available from both parking confirmation and vehicle return. Vehicle details are filled from the active workflow.','Kotlin / Jetpack Compose'],
+      ['Attach','Keep the evidence together.','Incident types come from the backend. The executive can attach photos, which upload before the incident report is submitted.','Retrofit / photo uploads'],
+      ['Recover','A failed upload is recoverable.','Incident details and attached photos remain available locally after an upload failure so the user can recover the draft.','Room / local draft recovery'],
+      ['Confirm','Success follows confirmation.','The app shows success only after the API confirms submission. The delivery flow returns Home before displaying the backend confirmation message.','REST API / explicit submission state']
+    ],
+    kadi:[
+      ['Discover','Start close to home.','Distance-based discovery offers 2, 5, 10, and 25 km radii, with nearby reports sorted by distance and shown on a map.','Kotlin Multiplatform / MapLibre'],
+      ['Contribute','Turn a find into a report.','Photo capture, compressed uploads, snack filters, and availability voting let the community share what is fresh nearby.','Compose Multiplatform / Supabase'],
+      ['Validate','Keep today relevant.','Server timestamps, idempotent submissions, daily report limits, and editable availability votes protect the reporting flow. Daily reports expire at Kerala midnight.','Server validation / shared repositories'],
+      ['Notify','Deliver useful updates.','A durable queue handles retries and lease recovery. Client checks reject duplicate, expired, or wrong-account notifications.','Durable queue / retry backoff / client validation']
+    ]
+  };
+  const section=document.querySelector('#engineering');
+  let project='credence',step=0;
+  const flow=section.querySelector('.build-flow');
+  function detail(){
+    const item=flows[project][step];
+    section.querySelector('.build-step').textContent=`${String(step+1).padStart(2,'0')} / ${project==='credence'?'CREDENCEAI':project==='valet'?'PRIME VALET':'KADI UNDO'}`;
+    section.querySelector('.build-detail h3').textContent=item[1];
+    section.querySelector('.build-detail p').textContent=item[2];
+    section.querySelector('.build-tech').textContent=item[3];
+    flow.querySelectorAll('button').forEach((b,i)=>b.setAttribute('aria-pressed',String(i===step)));
+  }
+  function render(){
+    flow.replaceChildren();
+    flows[project].forEach((item,i)=>{
+      const b=document.createElement('button');b.type='button';
+      const n=document.createElement('span');n.textContent=String(i+1).padStart(2,'0');
+      b.append(n,document.createTextNode(item[0]));
+      b.addEventListener('click',()=>{step=i;detail();});flow.append(b);
+    });detail();
+  }
+  section.querySelectorAll('[data-build]').forEach(b=>b.addEventListener('click',()=>{
+    project=b.dataset.build;step=0;
+    section.querySelectorAll('[data-build]').forEach(t=>t.setAttribute('aria-pressed',String(t===b)));
+    render();
+  }));
+  // Reuse the original case-study triggers, preserving native dialog behavior.
+  const full=section.querySelector('#build-case');
+  full.removeAttribute('data-project');
+  full.addEventListener('click',()=>document.querySelector(`.project-card [data-project="${project}"]`).click());
+  render();
+})();
