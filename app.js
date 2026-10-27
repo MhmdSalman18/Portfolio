@@ -60,17 +60,6 @@
   const renderNextProject = key => { showProject(key); $('.dialog-close', projectDialog).focus({preventScroll:true}); };
   $$('[data-project]').forEach(el => el.addEventListener('click', () => showProject(el.dataset.project, el)));
 
-  // Filters use real buttons and announce the visible result count.
-  const filters = $$('.filter');
-  filters.forEach(button => button.addEventListener('click', () => {
-    const category = button.dataset.filter;
-    filters.forEach(item => {const active=item===button;item.classList.toggle('active',active);item.setAttribute('aria-pressed',String(active));});
-    let count=0;
-    $$('.project-card').forEach(card=>{const show=category==='all'||category===card.dataset.category;card.hidden=!show;if(show){count++;card.classList.add('visible');}});
-    $('.work-count').textContent=`${count} ${count===1?'selected project':'selected projects'}`;
-    requestScrollUpdate();
-  }));
-
   const safeLink = value => {
     if (!value || typeof value !== 'string') return null;
     try { const url=new URL(value,window.location.href);return ['https:','http:'].includes(url.protocol)?url.href:null; } catch {return null;}
